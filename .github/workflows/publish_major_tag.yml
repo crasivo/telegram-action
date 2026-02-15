@@ -1,0 +1,40 @@
+name: Publish major tag
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  update-major-tag:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate and Extract Version
+        id: version_check
+        run: |
+          FULL_TAG="${{ github.event.release.tag_name }}"
+          if [[ $FULL_TAG =~ ^v([0-9]+)\.[0-9]+\.[0-9]+$ ]]; then
+            MAJOR_TAG="v${BASH_REMATCH[1]}"
+            echo "major_tag=$MAJOR_TAG" >> $GITHUB_OUTPUT
+            echo "Valid version detected: $FULL_TAG -> $MAJOR_TAG"
+          else
+            echo "Tag $FULL_TAG doesn't match SemVer. Skipping tag update."
+            echo "should_run=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update Tag
+        if: steps.version_check.outputs.major_tag != ''
+        run: |
+          MAJOR_TAG="${{ steps.version_check.outputs.major_tag }}"
+          FULL_TAG="${{ github.event.release.tag_name }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          echo "Moving $MAJOR_TAG to $FULL_TAG"
+          git tag -fa "$MAJOR_TAG" -m "Update $MAJOR_TAG to $FULL_TAG"
+          git push origin "$MAJOR_TAG" --force
