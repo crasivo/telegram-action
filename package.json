@@ -1,0 +1,64 @@
+{
+    "name": "@crasivo/telegram-action",
+    "version": "1.0.0",
+    "description": "Telegram notification action for GitHub Workflows",
+    "main": "dist/main.js",
+    "private": true,
+    "type": "module",
+    "engines": {
+        "node": ">=20"
+    },
+    "scripts": {
+        "build": "rollup --config rollup.config.mjs",
+        "format:check": "prettier --check .",
+        "format:write": "prettier --write .",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
+        "test": "jest",
+        "test:debug": "jest --testMatch '**/__tests__/**/*.debug.ts' --testPathIgnorePatterns '/node_modules/'"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/crasivo/telegram-action.git"
+    },
+    "keywords": [
+        "github-actions",
+        "telegram",
+        "bot",
+        "notifications"
+    ],
+    "author": {
+        "name": "Crasivo Dev",
+        "email": "crasivodev@gmail.com",
+        "url": "https://github.com/crasivo"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "@actions/core": "^1.11.0",
+        "@actions/github": "^6.0.0",
+        "@actions/glob": "^0.6.0"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.39.0",
+        "@github/local-action": "^6.0.0",
+        "@jest/globals": "^29.7.0",
+        "@rollup/plugin-commonjs": "^25.0.0",
+        "@rollup/plugin-node-resolve": "^15.2.0",
+        "@rollup/plugin-typescript": "^11.1.0",
+        "@types/jest": "^29.5.0",
+        "@types/node": "^20.17.0",
+        "@typescript-eslint/eslint-plugin": "^8.55.0",
+        "@typescript-eslint/parser": "^8.55.0",
+        "dotenv": "^17.3.0",
+        "eslint": "^9.39.0",
+        "eslint-config-prettier": "^10.1.0",
+        "eslint-plugin-prettier": "^5.2.0",
+        "globals": "^15.14.0",
+        "jest": "^29.7.0",
+        "prettier": "^3.5.0",
+        "rollup": "^4.34.0",
+        "ts-jest": "^29.2.0",
+        "typescript": "^5.7.0",
+        "typescript-eslint": "^8.55.0"
+    }
+}

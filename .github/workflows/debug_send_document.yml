@@ -1,0 +1,28 @@
+name: Debug - sendDocument
+
+on:
+  workflow_dispatch:
+    inputs:
+      file_path:
+        description: 'Path to the file'
+        required: false
+        default: 'package.json'
+      caption:
+        description: 'Document caption'
+        required: false
+        default: '📄 Here is the requested file'
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Send Document
+        uses: ./
+        with:
+          bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.TELEGRAM_CHAT_ID }}
+          document: ${{ github.event.inputs.file_path }}
+          document_caption: ${{ github.event.inputs.caption }}
+          parse_mode: 'HTML'

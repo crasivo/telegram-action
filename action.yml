@@ -1,0 +1,58 @@
+name: 'Telegram Bot Notifier'
+description: 'Send messages, documents and interactive buttons to Telegram.'
+author: 'crasivo'
+branding:
+  icon: 'send'
+  color: 'blue'
+inputs:
+  bot_token:
+    description: 'The Telegram Bot API token (get it from @BotFather)'
+    required: true
+  chat_id:
+    description: 'Unique identifier for the target chat or username of the target channel'
+    required: true
+  message_text:
+    description: 'The text of the message to be sent'
+    required: false
+  parse_mode:
+    description: 'Mode for parsing entities in the message text: HTML, Markdown, or MarkdownV2'
+    required: false
+    default: 'HTML'
+  document:
+    description: 'Path to a local file to be sent (triggers sendDocument)'
+    required: false
+  document_caption:
+    description: 'Caption for the document. If empty, message_text will be used as a caption.'
+    required: false
+  message_thread_id:
+    description: 'Unique identifier for the target message thread (topic) of the forum'
+    required: false
+  message_effect_id:
+    description: 'Unique identifier of the message effect to be added to the message'
+    required: false
+  protect_content:
+    description: 'Protects the contents of the sent message from forwarding and saving'
+    required: false
+  disable_notification:
+    description: 'Sends the message silently'
+    required: false
+  reply_markup:
+    description: 'JSON-serialized object for an inline keyboard'
+    required: false
+  reply_link_url:
+    description: 'Quick link button: The URL to open'
+    required: false
+  reply_link_text:
+    description: 'Quick link button: The label for the button'
+    required: false
+  reply_parameters:
+    description: 'JSON-serialized object describing the message to reply to'
+    required: false
+outputs:
+  message_id:
+    description: 'The unique identifier of the sent message'
+  ok:
+    description: 'True if the message was sent successfully'
+runs:
+  using: 'node20'
+  main: 'dist/main.js'

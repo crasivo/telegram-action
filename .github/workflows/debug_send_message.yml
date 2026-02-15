@@ -1,0 +1,31 @@
+name: Debug - sendMessage
+
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Text to send'
+        required: false
+        default: '🚀 Manual test from GitHub Actions'
+      parse_mode:
+        description: 'Formatting mode'
+        required: false
+        type: choice
+        options: [ HTML, Markdown, MarkdownV2 ]
+        default: 'HTML'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Send Notification
+        uses: ./
+        with:
+          bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          chat_id: ${{ secrets.TELEGRAM_CHAT_ID }}
+          message_text: ${{ github.event.inputs.message }}
+          parse_mode: ${{ github.event.inputs.parse_mode }}
+          reply_link_text: 'Open Repository'
+          reply_link_url: 'https://github.com/${{ github.repository }}'
