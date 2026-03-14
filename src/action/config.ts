@@ -1,4 +1,4 @@
-import * as core from '@actions/core';
+import { getInput, getBooleanInput, warning as logWarning } from '@actions/core';
 import type { InlineKeyboardMarkup, ReplyParameters, ParseMode } from '../telegram';
 
 /**
@@ -97,22 +97,22 @@ export class ActionConfig {
      */
     public static fromGithubInput(): ActionConfig {
         return ActionConfig.fromRawInputs({
-            bot_token: core.getInput('bot_token', { required: true }),
-            chat_id: core.getInput('chat_id', { required: true }),
-            message_text: core.getInput('message_text') || undefined,
-            document: core.getInput('document') || undefined,
-            document_caption: core.getInput('document_caption') || undefined,
-            parse_mode: (core.getInput('parse_mode') || 'HTML') as ParseMode,
-            message_thread_id: core.getInput('message_thread_id')
-                ? core.getInput('message_thread_id')
+            bot_token: getInput('bot_token', { required: true }),
+            chat_id: getInput('chat_id', { required: true }),
+            message_text: getInput('message_text') || undefined,
+            document: getInput('document') || undefined,
+            document_caption: getInput('document_caption') || undefined,
+            parse_mode: (getInput('parse_mode') || 'HTML') as ParseMode,
+            message_thread_id: getInput('message_thread_id')
+                ? getInput('message_thread_id')
                 : undefined,
-            message_effect_id: core.getInput('message_effect_id') || undefined,
-            protect_content: core.getBooleanInput('protect_content'),
-            disable_notification: core.getBooleanInput('disable_notification'),
-            reply_link_url: core.getInput('reply_link_url'),
-            reply_link_text: core.getInput('reply_link_text'),
-            reply_markup: core.getInput('reply_markup'),
-            reply_parameters: core.getInput('reply_parameters'),
+            message_effect_id: getInput('message_effect_id') || undefined,
+            protect_content: getBooleanInput('protect_content'),
+            disable_notification: getBooleanInput('disable_notification'),
+            reply_link_url: getInput('reply_link_url'),
+            reply_link_text: getInput('reply_link_text'),
+            reply_markup: getInput('reply_markup'),
+            reply_parameters: getInput('reply_parameters'),
         });
     }
 
@@ -142,7 +142,7 @@ export class ActionConfig {
             try {
                 replyMarkup = JSON.parse(rawReplyMarkup);
             } catch (error) {
-                core.warning(`Failed to parse reply_markup JSON: ${error}`);
+                logWarning(`Failed to parse reply_markup JSON: ${error}`);
             }
         }
 
@@ -152,7 +152,7 @@ export class ActionConfig {
             try {
                 replyParameters = JSON.parse(rawReplyParams);
             } catch (error) {
-                core.warning(`Failed to parse reply_parameters JSON: ${error}`);
+                logWarning(`Failed to parse reply_parameters JSON: ${error}`);
             }
         }
 

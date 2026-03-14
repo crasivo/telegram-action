@@ -1,5 +1,6 @@
+import { describe, it, beforeAll, afterEach, vi } from 'vitest';
 import * as dotenv from 'dotenv';
-import { run } from '../src/run';
+import { run } from '../src/run.js';
 import { ActionConfig } from '../src/action';
 
 dotenv.config();
@@ -24,14 +25,10 @@ describe('Real World Debugging Sessions', () => {
         await sleep(2000);
     });
 
-    /**
-     * ТЕСТ 1: Текст + Ссылка (кнопка)
-     * Проверяем генерацию reply_markup из reply_link_text и reply_link_url
-     */
-    test('DEBUG: Send Text with Link Button', async () => {
+    it('DEBUG: Send Text with Link Button', async () => {
         const config = ActionConfig.fromRawInputs({
             ...inputs,
-            message_text: '🔗 *Debug*: Message with a Button',
+            message_text: '🔗 *Debug*: Message with a Button (Vitest)',
             parse_mode: 'Markdown',
             reply_link_text: 'Go to Repository',
             reply_link_url: 'https://github.com/crasivo/telegram-action',
@@ -41,16 +38,17 @@ describe('Real World Debugging Sessions', () => {
         await run(config);
     });
 
-    test('DEBUG: Send Single Document', async () => {
+    it('DEBUG: Send Single Document', async () => {
         const config = ActionConfig.fromRawInputs({
             ...inputs,
             document: 'package.json',
-            document_caption: '📄 *Debug*: Single Document',
+            document_caption: '📄 *Debug*: Single Document (Vitest)',
             parse_mode: 'Markdown',
             reply_link_text: 'Go to Repository',
             reply_link_url: 'https://github.com/crasivo/telegram-action',
         });
 
+        console.log(`[2] Executing method: ${config.getActionMethod()}`);
         await run(config);
     });
 });

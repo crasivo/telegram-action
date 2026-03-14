@@ -1,4 +1,4 @@
-import * as core from '@actions/core';
+import { setFailed } from '@actions/core';
 import { ActionConfig } from './action';
 import { run } from './run';
 
@@ -14,7 +14,7 @@ async function main(): Promise<void> {
         await run(config);
     } catch (error) {
         if (error instanceof Error) {
-            core.setFailed(error.message);
+            setFailed(error.message);
         }
     }
 }

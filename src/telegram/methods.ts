@@ -1,4 +1,4 @@
-import * as core from '@actions/core';
+import { error as logError, info as logInfo } from '@actions/core';
 import type {
     SendDocumentResponse,
     SendDocumentRequest,
@@ -49,8 +49,8 @@ async function sendRequest<T = Record<string, any>>(
     }
 
     // Logging
-    core.info(`--- Outgoing Telegram Request: ${method} ---`);
-    core.info(JSON.stringify({ ...debugPayload, chat_id: '***' }, null, 2));
+    logInfo(`--- Outgoing Telegram Request: ${method} ---`);
+    logInfo(JSON.stringify({ ...debugPayload, chat_id: '***' }, null, 2));
 
     try {
         const response = await fetch(url, {
@@ -61,17 +61,17 @@ async function sendRequest<T = Record<string, any>>(
         const result = (await response.json()) as any;
 
         if (!response.ok) {
-            core.error(
+            logError(
                 `❌ Telegram API Error [${method}]: ${result.description} (Code: ${result.error_code})`,
             );
         } else {
-            core.info(`✅ Telegram API Success [${method}]`);
+            logInfo(`✅ Telegram API Success [${method}]`);
         }
 
         return result as T;
     } catch (error) {
         const msg = error instanceof Error ? error.message : String(error);
-        core.error(`❌ Network Error [${method}]: ${msg}`);
+        logError(`❌ Network Error [${method}]: ${msg}`);
         throw error;
     }
 }

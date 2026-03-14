@@ -1,4 +1,4 @@
-import * as core from '@actions/core';
+import { info as logInfo, setFailed, setOutput } from '@actions/core';
 import { TelegramBot } from './telegram';
 import { ActionConfig } from './action';
 import { fileToBlob } from './utils';
@@ -29,7 +29,7 @@ export async function run(config: ActionConfig): Promise<void> {
 
         switch (method) {
             case 'sendMessage':
-                core.info('Sending text message...');
+                logInfo('Sending text message...');
                 if (!config.messageText || config.messageText.trim().length === 0) {
                     throw new Error(
                         'Action execution failed: "message_text" is required for sendMessage but was found empty.',
@@ -44,7 +44,7 @@ export async function run(config: ActionConfig): Promise<void> {
                 break;
 
             case 'sendDocument':
-                core.info(`Preparing to send document: ${config.document}`);
+                logInfo(`Preparing to send document: ${config.document}`);
                 if (!config.document) {
                     throw new Error(
                         'Action execution failed: "document" path is missing for sendDocument.',
@@ -65,19 +65,19 @@ export async function run(config: ActionConfig): Promise<void> {
         if (response.ok) {
             const result = Array.isArray(response.result) ? response.result[0] : response.result;
 
-            core.info('✅ Success! Message sent.');
-            core.setOutput('message_id', result.message_id);
-            core.setOutput('ok', true);
+            logInfo('✅ Success! Message sent.');
+            setOutput('message_id', result.message_id);
+            setOutput('ok', true);
         } else {
-            core.setFailed(
+            setFailed(
                 `❌ Telegram API Error: ${response.description} (Code: ${response.error_code})`,
             );
         }
     } catch (error) {
         if (error instanceof Error) {
-            core.setFailed(`Internal Action Error: ${error.message}`);
+            setFailed(`Internal Action Error: ${error.message}`);
         } else {
-            core.setFailed('An unknown error occurred during execution.');
+            setFailed('An unknown error occurred during execution.');
         }
     }
 }

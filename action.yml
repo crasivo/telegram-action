@@ -54,5 +54,5 @@ outputs:
   ok:
     description: 'True if the message was sent successfully'
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'dist/main.js'

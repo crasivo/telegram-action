@@ -8,20 +8,32 @@ import commonjs from '@rollup/plugin-commonjs';
  */
 export default {
     input: 'src/index.ts',
-    output: {
-        file: 'dist/main.js',
-        format: 'es',
-        sourcemap: false,
-    },
+    output: [
+        {
+            file: 'dist/main.js',
+            format: 'es',
+            sourcemap: true,
+        }
+    ],
+    context: 'global',
     plugins: [
         resolve({
+            extensions: ['.ts', '.js'],
             exportConditions: ['node'],
             preferBuiltins: true,
         }),
         commonjs(),
         typescript({
             tsconfig: './tsconfig.json',
+            sourceMap: true,
             exclude: ['__tests__/**', 'src/**/*.test.ts'],
         }),
     ],
+    onwarn(warning, warn) {
+        if (warning?.code === 'CIRCULAR_DEPENDENCY' && warning?.message.includes('node_modules')) {
+            return;
+        }
+
+        warn(warning);
+    }
 };

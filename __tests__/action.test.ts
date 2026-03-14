@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { ActionConfig } from '../src/action';
 
 describe('ActionConfig Parsing logic', () => {
@@ -6,7 +7,7 @@ describe('ActionConfig Parsing logic', () => {
         chat_id: '12345',
     };
 
-    test('should prioritize link button over raw reply_markup', () => {
+    it('should prioritize link button over raw reply_markup', () => {
         const config = ActionConfig.fromRawInputs({
             ...baseInputs,
             reply_link_url: 'https://google.com',
@@ -19,7 +20,7 @@ describe('ActionConfig Parsing logic', () => {
         });
     });
 
-    test('should determine correct ActionMethod', () => {
+    it('should determine correct ActionMethod', () => {
         const textConfig = ActionConfig.fromRawInputs({ ...baseInputs, message_text: 'Hi' });
         const docConfig = ActionConfig.fromRawInputs({ ...baseInputs, document: 'file.txt' });
 
@@ -27,7 +28,7 @@ describe('ActionConfig Parsing logic', () => {
         expect(docConfig.getActionMethod()).toBe('sendDocument');
     });
 
-    test('should throw error if no content is provided', () => {
+    it('should throw error if no content is provided', () => {
         const emptyConfig = ActionConfig.fromRawInputs(baseInputs);
         expect(() => emptyConfig.getActionMethod()).toThrow(/No valid content found/);
     });
