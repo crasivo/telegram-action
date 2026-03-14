@@ -1,8 +1,8 @@
 # Telegram Notifier Action ⚡
 
 [![Testing](https://github.com/crasivo/telegram-action/actions/workflows/test.yml/badge.svg)](https://github.com/crasivo/telegram-action/actions)
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
-![Node](https://img.shields.io/badge/node-20-green)
+![Version](https://img.shields.io/badge/version-1.1.0-blue)
+![Node](https://img.shields.io/badge/node-24-green)
 
 Легковесный и надежный GitHub Action для отправки текстовых сообщений и файлов в Telegram.
 Разработан с упором на прозрачность логирования и простоту использования в ваших OpenSource проектах.
